@@ -1,0 +1,38 @@
+reset
+set terminal pngcairo
+set output "fig_speedup.png"
+
+fname = "speedup_gpushort.txt"
+
+f(x) = a*x**n
+fit f(x) fname using 1:3 via a,n
+
+#set xrange [900:100000]
+#set yrange  [10000:2002000]
+
+set xrange [1:50000]
+set yrange  [500:2000000]
+
+#set xrange [1:1000]
+#set yrange  [500:100000]
+
+
+set logscale x
+set logscale y
+
+set tics font ",15"
+set xlabel "Nodos en grilla (N)" font ",15"
+set ylabel "tiempo (ms)" font ",15"
+set title "Duración de la simulación" font ",18"
+
+set key right bottom
+
+plot fname u 1:2 title "cpu"  w lp lw 3 lc rgb "blue", \
+fname u 1:3 title "gpu-short" w lp lw 3 lc rgb "orange", \
+fname u 1:4 title "gpu-long"  w lp lw 3 lc rgb "red", \
+f(x) title sprintf("%3.3g x^{(%3.2g)}",a,n) lw 3 lc rgb "black"
+
+
+
+
+

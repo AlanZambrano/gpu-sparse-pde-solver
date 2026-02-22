@@ -1,0 +1,60 @@
+# =========================
+# BUILD / BINARIES
+# =========================
+bin/
+build/
+*.o
+*.out
+a.out
+*.exe
+
+# =========================
+# OUTPUT DATA FILES
+# =========================
+*.dat
+*.csv
+*.log
+gmon.out
+analysis.txt
+fit.log
+
+# =========================
+# IDE / SYSTEM FILES
+# =========================
+.vscode/
+.idea/
+.DS_Store
+
+# =========================
+# ARCHIVES
+# =========================
+*.zip
+*.tar
+*.tar.gz
+
+# =========================
+# PYTHON CACHE
+# =========================
+__pycache__/
+
+# =========================
+# THIRD-PARTY DEPENDENCIES
+# =========================
+lib/eigen-3.4.0/
+# =========================
+# CLUSTER / SCHEDULER OUTPUT
+# =========================
+pred-prey.o*
+**/pred-prey.o*
+*.e*
+*.o[0-9]*
+*.e[0-9]*
+
+# =========================
+# PROFILING / TEMP FILES
+# =========================
+nvprof*
+**/nvprof*
+.fuse_hidden*
+**/.fuse_hidden*
+

@@ -1,0 +1,73 @@
+#! /bin/bash
+#
+# Este script puede usarse para lanzar un proceso de gpu
+# Se especifica la cola gpu, se solicita una gpu y se solicita 1G RAM para el proceso
+#
+# Para lanzarlo copielo a un directorio en su home y en ese directorio ejecute:
+# qsub ejemploGPU
+#
+# Los procesos en la cola gpu tienen una duración máxima de 3 días
+# Los procesos en la cola gpushort tienen una duración máxima de 20 minutos
+#
+# El sistema de cola devuelve una variable $SGE_GPU que contiene los IDs de los dispositivos requeridos (separados por coma). Ejemplo: 0 o 0,1 dependiendo del numero de recursos pedidos
+# Use este device ID para cudaSetDevice()
+#
+# 
+# Las lineas que comienzan con #$ son opciones para el sistema de cola
+# Todas explicadas en el man qsub
+
+#$ -cwd
+#$ -j y
+#$ -S /bin/bash
+#$ -q gpu@compute-6-10.local
+#$ -l gpu=1
+#$ -l memoria_a_usar=10G
+#$ -N pred-prey
+
+
+#
+#cargar variables de entorno para encontrar cuda
+#module load cuda/10.0.130 
+
+printf "\n\n"
+
+#ejecutar binario con sus respectivos argumentos
+#printf "GPU "
+
+LIBSMAGMA=/share/apps/spack/opt/spack/linux-centos7-x86_64/gcc-8.2.0/magma-2.7.1-lrzhx5oz5pjqikja2jz6czd3m47r5fzj/lib/
+INCLUDEMAGMA=/share/apps/spack/opt/spack/linux-centos7-x86_64/gcc-8.2.0/magma-2.7.1-lrzhx5oz5pjqikja2jz6czd3m47r5fzj/include/
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$LIBSMAGMA
+
+#module load cuda-11.1.1-gcc-8.2.0-oudxgm3
+module load cuda-11.4.0-gcc-11.1.0-32zjbww
+
+ echo $HOSTNAME
+# module list
+
+#printf "\n\nGPU \n"
+#nvidia-smi
+
+#./a.out
+
+#../bin/main
+
+#../bin/main; gprof --graph ../bin/main gmon.out > analysis.txt
+
+#../bin/main; gprof ../bin/main gmon.out > analysis.txt
+
+#nvprof ../bin/main_gpu_1k 
+
+#nvprof ../bin/main
+
+#./magmatest
+
+ $1
+
+
+
+
+
+
+
+

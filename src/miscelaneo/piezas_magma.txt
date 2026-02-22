@@ -1,0 +1,48 @@
+# include < stdio .h >
+# include < cuda .h >
+# include " magma_v2 . h "
+# include " magma_lapack . h "
+int main ( int argc , char ** argv ){
+magma_init (); // initialize Magma
+real_Double_t gpu_time ;
+magma_int_t * piv , info ;
+magma_int_t m = 8192; // a - mxm matrix
+magma_int_t n = 100; // c - mxn matrix
+magma_int_t mm = m * m ; // size of a
+magma_int_t mn = m * n ; // size of c
+double * a ; // a - mxm matrix on the host
+double * b ; // b - mxn matrix on the host
+double * c ; // c - mxn matrix on the host
+magma_int_t ione = 1; // random uniform distr . in (0 ,1)
+magma_int_t ISEED [4] = { 0 ,0 ,0 ,1 }; // seed
+magma_int_t err ;
+const double alpha = 1.0; // alpha =1
+const double beta = 0.0; // beta =0
+// allocate matrices on the host
+err = magma_dmalloc_pinned ( & a , mm ); // host memory for a
+err = magma_dmalloc_pinned ( & b , mn ); // host memory for b
+err = magma_dmalloc_pinned ( & c , mn ); // host memory for c
+piv =( magma_int_t *) malloc ( m * sizeof ( magma_int_t ));
+// generate random matrices a , b ;
+lapackf77_dlarnv (& ione , ISEED ,& mm , a ); // randomize a
+lapackf77_dlarnv (& ione , ISEED ,& mn , b ); // randomize b
+printf ( " expected solution :\ n " );
+magma_dprint ( 4 , 4 , b , m );
+// right hand side c = a * b
+blasf77_dgemm ( " N " ," N " ,&m ,& n ,& n ,& alpha ,a ,& m ,b ,& m ,& beta ,c ,& m );
+// solve the linear system a * x = c
+// c - mxn matrix , a - mxm matrix ;
+// c is overwritten by the solution
+gpu_time = magma_sync_wtime ( NULL );
+magma dgesv(m,n,a,m,piv,c,m,&info);
+gpu_time = magma_sync_wtime ( NULL ) - gpu_time ;
+printf ( " magma_dgesv time : %7.5 f sec .\ n " , gpu_time ); // time
+printf ( " solution :\ n " );
+magma_dprint ( 4 , 4 , c , m ); // part of the solution
+magma_free_pinned ( a ); // free host memory
+magma_free_pinned ( b ); // free host memory
+magma_free_pinned ( c ); // free host memory
+free ( piv ); // free host memory
+magma_finalize (); // finalize Magma
+return 0;
+}
