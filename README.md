@@ -1,135 +1,135 @@
+GPU-Accelerated Nonlinear PDE Solver
 
-GPU-ACCELERATED NONLINEAR PDE SOLVER
-C/C++ | Eigen | MAGMA | CUDA | HPC Cluster (SGE)
+C/C++ · Eigen · MAGMA · CUDA · HPC (SGE)
 
-============================================================
-1. OVERVIEW
-============================================================
+------------------------------------------------------------------------
 
-This project implements a high-performance numerical solver for a coupled 
-nonlinear reaction–diffusion PDE system with density-dependent diffusion 
-and pursuit–avoidance dynamics.
+Overview
 
-The nonlinear PDE system is discretized into large-scale sparse linear 
-systems and solved iteratively at each timestep using hybrid CPU/GPU 
-acceleration.
+High-performance numerical solver for a coupled nonlinear
+reaction–diffusion PDE system with:
 
-The implementation was designed for execution in a Linux-based HPC 
-cluster environment using GPU resources.
+-   Density-dependent diffusion
+-   Predator–prey pursuit–avoidance dynamics
+-   2D spatial discretization
+-   Hybrid CPU/GPU acceleration
 
-============================================================
-2. NUMERICAL MODEL
-============================================================
+The nonlinear PDE system is discretized into large-scale sparse linear
+systems and solved iteratively at each timestep.
 
-• Coupled nonlinear PDE system (reaction–diffusion type)
-• Spatially explicit 2D discretization
-• Density-dependent diffusion
-• Time-stepping iterative scheme
-• Sparse matrix assembly at each timestep
+The implementation targets Linux-based HPC environments with GPU
+resources.
 
-For a grid resolution N:
+------------------------------------------------------------------------
 
-    System dimension:
-        dim = 2 * (N+1)^2
+Numerical Model
+
+Model characteristics:
+
+-   Coupled nonlinear PDE system (reaction–diffusion type)
+-   Spatially explicit 2D discretization
+-   Density-dependent diffusion
+-   Iterative time-stepping scheme
+-   Sparse matrix assembly at each timestep
+
+For grid resolution N:
+
+System dimension: dim = 2 × (N + 1)^2
 
 With default parameters (N = 500), the solver handles approximately:
 
-    ~5×10^5 degrees of freedom per timestep.
+~5×10^5 degrees of freedom per timestep
 
-At each iteration:
-1. Sparse matrix assembly
-2. RHS vector construction
-3. Iterative sparse linear solve
-4. State update
+Each iteration performs:
 
-============================================================
-3. TECHNICAL STACK
-============================================================
+1.  Sparse matrix assembly
+2.  RHS vector construction
+3.  Iterative sparse linear solve
+4.  State update
 
-Language:
-    C/C++
+------------------------------------------------------------------------
 
-Sparse Linear Algebra (CPU):
-    Eigen (SparseLU)
+Technical Stack
 
-GPU Acceleration:
-    MAGMA 2.7.1
-    Solver: PIDRMERGE
-    Preconditioner: ILU (level 0)
-    Backend: CUDA 11.x
+Language: - C/C++
 
-Build System:
-    Makefile-based compilation
+Sparse Linear Algebra (CPU): - Eigen (SparseLU)
 
-Execution Environment:
-    Linux HPC Cluster
+GPU Acceleration: - MAGMA 2.7.1 - Solver: PIDRMERGE - Preconditioner:
+ILU (level 0) - Backend: CUDA 11.x
 
-Scheduler:
-    SGE (qsub)
+Build System: - Makefile-based compilation
 
-============================================================
-4. COMPUTATIONAL FEATURES
-============================================================
+Execution Environment: - Linux HPC Cluster
 
-• Modular C++ architecture
-• Operator-based sparse matrix assembly
-• Iterative sparse linear solvers
-• ILU preconditioning
-• Hybrid CPU/GPU execution paths
-• GPU memory monitoring
-• Runtime profiling
-• Benchmarking CPU vs GPU execution
-• Reproducible simulation workflows
+Scheduler: - SGE (qsub)
 
-============================================================
-5. PERFORMANCE BENCHMARK
-============================================================
+------------------------------------------------------------------------
 
-The solver was benchmarked across increasing grid sizes.
+Computational Features
 
-Results demonstrate:
+-   Modular C++ architecture
+-   Operator-based sparse matrix assembly
+-   Iterative sparse linear solvers
+-   ILU preconditioning
+-   Hybrid CPU/GPU execution paths
+-   GPU memory monitoring
+-   Runtime profiling
+-   CPU vs GPU benchmarking
+-   Reproducible simulation workflows
 
-• Near-linear computational complexity (~O(N^0.99))
-• Up to ~6× GPU speedup compared to CPU
-• Improved scalability for larger problem sizes
-• Stable hybrid execution behavior across cluster queues
+------------------------------------------------------------------------
 
-Benchmark figures and data are included in the repository.
+Performance Benchmark
 
-============================================================
-6. BUILD & EXECUTION
-============================================================
+Benchmarked across increasing grid sizes.
 
-1. Load required modules (example):
+Results show:
 
-    module load magma-2.7.1
-    module load cuda-11.x
+-   Near-linear computational complexity (~O(N^0.99))
+-   Up to ~6× GPU speedup vs CPU
+-   Improved scalability for larger problem sizes
+-   Stable hybrid execution across cluster queues
 
-2. Compile:
+Benchmark figures and datasets are included in the repository.
 
-    cd src
-    make
+------------------------------------------------------------------------
 
-3. Submit to cluster:
+Build & Execution
 
-    make submit
+1.  Load required modules (example):
 
-The job script requests GPU resources via SGE and configures 
-MAGMA and CUDA runtime libraries accordingly.
+module load magma-2.7.1 module load cuda-11.x
 
-============================================================
-7. RELEVANCE
-============================================================
+2.  Compile:
+
+cd src make
+
+3.  Submit to cluster:
+
+make submit
+
+The job script requests GPU resources via SGE and configures MAGMA and
+CUDA runtime libraries accordingly.
+
+------------------------------------------------------------------------
+
+Repository Structure
+
+include/ Header files src/ Core solver implementation scripts/ Cluster
+job submission scripts figures/ Output visualizations
+
+------------------------------------------------------------------------
+
+Relevance
 
 This project demonstrates:
 
-• Large-scale sparse system engineering
-• GPU-accelerated scientific computing
-• Hybrid CPU/GPU workflows
-• HPC cluster deployment and scheduling
-• Performance benchmarking and scalability analysis
-• Engineering-oriented numerical modeling
+-   Large-scale sparse system engineering
+-   GPU-accelerated scientific computing
+-   Hybrid CPU/GPU workflows
+-   HPC cluster deployment and scheduling
+-   Performance benchmarking and scalability analysis
+-   Engineering-oriented numerical modeling
 
-============================================================
-END OF README
-============================================================
+------------------------------------------------------------------------
